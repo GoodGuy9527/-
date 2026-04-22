@@ -1,0 +1,24 @@
+#ifndef CHECKINGACCOUNT_H
+#define CHECKINGACCOUNT_H
+
+#include "Account.h"
+
+class CheckingAccount : public Account {
+private:
+    double overdraftLimit;
+
+public:
+    CheckingAccount(string accNo, string name, double bal, double limit)
+        : Account(accNo, name, bal), overdraftLimit(limit) {}
+
+    // Override (Polymorphism)
+    void withdraw(double amount) override {
+        if (amount <= balance + overdraftLimit) {
+            balance -= amount;
+        } else {
+            cout << "Overdraft limit exceeded (Checking)" << endl;
+        }
+    }
+};
+
+#endif
