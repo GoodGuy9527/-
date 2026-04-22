@@ -1,0 +1,101 @@
+#include <iostream>
+#include <vector>
+#include "SavingsAccount.h"
+#include "CheckingAccount.h"
+using namespace std;
+
+int main() {
+    vector<Account*> accounts; // simpan semua akun
+    int mainChoice;
+
+    do {
+        cout << "\n=== MAIN MENU ===\n";
+        cout << "1. Create Account\n";
+        cout << "2. Select Account\n";
+        cout << "0. Exit\n";
+        cout << "Choose: ";
+        cin >> mainChoice;
+
+        if (mainChoice == 1) {
+            string accNo, name;
+            double balance;
+            int type;
+
+            cout << "Account Number: ";
+            cin >> accNo;
+            cout << "Name: ";
+            cin >> name;
+            cout << "Initial Balance: ";
+            cin >> balance;
+            cout << "Type (1: Savings, 2: Checking): ";
+            cin >> type;
+
+            if (type == 1) {
+                accounts.push_back(new SavingsAccount(accNo, name, balance, 0.05));
+            } else {
+                accounts.push_back(new CheckingAccount(accNo, name, balance, 200));
+            }
+
+            cout << "Account created!\n";
+        }
+
+        else if (mainChoice == 2) {
+            if (accounts.empty()) {
+                cout << "No accounts available.\n";
+                continue;
+            }
+
+            cout << "\nAvailable Accounts:\n";
+            for (int i = 0; i < accounts.size(); i++) {
+                cout << i << ". " << accounts[i]->getAccountNumber() << endl;
+            }
+
+            int index;
+            cout << "Select index: ";
+            cin >> index;
+
+            if (index < 0 || index >= accounts.size()) {
+                cout << "Invalid index\n";
+                continue;
+            }
+
+            Account* acc = accounts[index];
+
+            int choice;
+            do {
+                cout << "\n--- ACCOUNT MENU ---\n";
+                cout << "1. Deposit\n";
+                cout << "2. Withdraw\n";
+                cout << "3. Show Info\n";
+                cout << "0. Back\n";
+                cout << "Choose: ";
+                cin >> choice;
+
+                if (choice == 1) {
+                    double amt;
+                    cout << "Amount: ";
+                    cin >> amt;
+                    acc->deposit(amt);
+                }
+                else if (choice == 2) {
+                    double amt;
+                    cout << "Amount: ";
+                    cin >> amt;
+                    acc->withdraw(amt);
+                }
+                else if (choice == 3) {
+                    acc->displayInfo();
+                }
+
+            } while (choice != 0);
+        }
+
+    } while (mainChoice != 0);
+
+    // free memory
+    for (Account* acc : accounts) {
+        delete acc;
+    }
+
+    return 0;
+}
