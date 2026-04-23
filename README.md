@@ -19,11 +19,11 @@ Abstract Class,
 提款,
 顯示帳戶資訊,
 
-執行方式,
-```bash
-![image]<img width="1383" height="1725" alt="mermaid-diagram_2" src="https://github.com/user-attachments/assets/8fed5b5f-1f9d-4788-a998-6fa3e4d1029d" />
+<img width="1096" height="861" alt="mermaid-diagram_1" src="https://github.com/user-attachments/assets/44b8f134-41f4-464f-a953-3e46ed377d35" />
+<img width="1383" height="1725" alt="mermaid-diagram_2" src="https://github.com/user-attachments/assets/fda20938-98e4-4623-834f-187d519119fd" />
 
-![image] <img width="1096" height="861" alt="mermaid-diagram_1" src="https://github.com/user-attachments/assets/c536f43c-6abb-4c87-9d2d-8c1fe32c1f17" />
+
+```bash
 
 g++ main.cpp -o bank
 ./bank (已編輯)星期二, 四月 21, 2026 下午 08:38
