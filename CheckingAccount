@@ -1,21 +1,32 @@
-#ifndef CHECKINGACCOUNT_H
+#ifndef CHECKINGACCOUNT_H     // 防止重複包含
 #define CHECKINGACCOUNT_H
 
 #include "Account.h"
 
+// CheckingAccount 繼承 Account
 class CheckingAccount : public Account {
+
 private:
-    double overdraftLimit;
+    double overdraftLimit;   // 透支額度
 
 public:
-    CheckingAccount(string accNo, string name, double bal, double limit)
-        : Account(accNo, name, bal), overdraftLimit(limit) {}
 
-    // Override (Polymorphism)
+    // 建構子
+    CheckingAccount(string accNo,
+                    string name,
+                    double bal,
+                    double limit)
+        : Account(accNo, name, bal),
+          overdraftLimit(limit) {}
+
+    // 覆寫 withdraw()
     void withdraw(double amount) override {
+
+        // 可以使用餘額+透支額度
         if (amount <= balance + overdraftLimit) {
             balance -= amount;
-        } else {
+        }
+        else {
             cout << "Overdraft limit exceeded (Checking)" << endl;
         }
     }
