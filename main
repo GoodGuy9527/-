@@ -1,101 +1,49 @@
-#include <iostream>
-#include <vector>
 #include "SavingsAccount.h"
 #include "CheckingAccount.h"
-using namespace std;
 
 int main() {
-    vector<Account*> accounts; // simpan semua akun
-    int mainChoice;
 
-    do {
-        cout << "\n=== MAIN MENU ===\n";
-        cout << "1. Create Account\n";
-        cout << "2. Select Account\n";
-        cout << "0. Exit\n";
-        cout << "Choose: ";
-        cin >> mainChoice;
+    // ==========================
+    // 多型(Polymorphism)
+    // 父類別指標指向子類別物件
+    // ==========================
 
-        if (mainChoice == 1) {
-            string accNo, name;
-            double balance;
-            int type;
+    Account* acc1 =
+        new SavingsAccount(
+            "S001",      // 帳號
+            "Kevin",     // 戶名
+            1000,        // 初始餘額
+            0.05);       // 利率
 
-            cout << "Account Number: ";
-            cin >> accNo;
-            cout << "Name: ";
-            cin >> name;
-            cout << "Initial Balance: ";
-            cin >> balance;
-            cout << "Type (1: Savings, 2: Checking): ";
-            cin >> type;
+    Account* acc2 =
+        new CheckingAccount(
+            "C001",      // 帳號
+            "Alex",      // 戶名
+            500,         // 初始餘額
+            200);        // 透支額度
 
-            if (type == 1) {
-                accounts.push_back(new SavingsAccount(accNo, name, balance, 0.05));
-            } else {
-                accounts.push_back(new CheckingAccount(accNo, name, balance, 200));
-            }
+    // 存款200
+    acc1->deposit(200);
 
-            cout << "Account created!\n";
-        }
+    // 提款300
+    acc1->withdraw(300);
 
-        else if (mainChoice == 2) {
-            if (accounts.empty()) {
-                cout << "No accounts available.\n";
-                continue;
-            }
+    // 提款600
+    // 500餘額 + 200透支額度
+    // 所以允許提款
+    acc2->withdraw(600);
 
-            cout << "\nAvailable Accounts:\n";
-            for (int i = 0; i < accounts.size(); i++) {
-                cout << i << ". " << accounts[i]->getAccountNumber() << endl;
-            }
+    // 顯示 SavingsAccount 資訊
+    acc1->displayInfo();
 
-            int index;
-            cout << "Select index: ";
-            cin >> index;
+    cout << "----------------" << endl;
 
-            if (index < 0 || index >= accounts.size()) {
-                cout << "Invalid index\n";
-                continue;
-            }
+    // 顯示 CheckingAccount 資訊
+    acc2->displayInfo();
 
-            Account* acc = accounts[index];
-
-            int choice;
-            do {
-                cout << "\n--- ACCOUNT MENU ---\n";
-                cout << "1. Deposit\n";
-                cout << "2. Withdraw\n";
-                cout << "3. Show Info\n";
-                cout << "0. Back\n";
-                cout << "Choose: ";
-                cin >> choice;
-
-                if (choice == 1) {
-                    double amt;
-                    cout << "Amount: ";
-                    cin >> amt;
-                    acc->deposit(amt);
-                }
-                else if (choice == 2) {
-                    double amt;
-                    cout << "Amount: ";
-                    cin >> amt;
-                    acc->withdraw(amt);
-                }
-                else if (choice == 3) {
-                    acc->displayInfo();
-                }
-
-            } while (choice != 0);
-        }
-
-    } while (mainChoice != 0);
-
-    // free memory
-    for (Account* acc : accounts) {
-        delete acc;
-    }
+    // 釋放動態記憶體
+    delete acc1;
+    delete acc2;
 
     return 0;
 }
