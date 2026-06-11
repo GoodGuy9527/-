@@ -1,60 +1,54 @@
-#ifndef ACCOUNT_H          // 防止 Account.h 被重複包含
+#ifndef ACCOUNT_H
 #define ACCOUNT_H
 
-#include <iostream>        // 輸入輸出函式庫
+#include <iostream>
 using namespace std;
 
-// Account 類別 (基底類別 Base Class)
+// Account 類別（抽象類別）
 class Account {
 private:
-    string accountNumber;  // 帳號（封裝：只能透過函式存取）
-    string ownerName;      // 戶名（封裝）
+    // 封裝（Encapsulation）：私有成員，只能透過 Getter 存取
+    string accountNumber;   // 帳號
+    string ownerName;       // 帳戶持有人姓名
 
 protected:
-    double balance;        // 餘額（子類別可直接存取）
+    // 受保護成員，可供子類別直接存取
+    double balance;         // 帳戶餘額
 
 public:
-
-    // 建構子(Constructor)
-    // 建立帳戶時初始化帳號、姓名與餘額
+    // 建構子（Constructor）
     Account(string accNo, string name, double bal) {
         accountNumber = accNo;
         ownerName = name;
         balance = bal;
     }
 
-    // Getter 函式
-    // 回傳帳號
+    // Getter 方法（封裝）
     string getAccountNumber() const {
         return accountNumber;
     }
 
-    // 回傳戶名
     string getOwnerName() const {
         return ownerName;
     }
 
-    // 回傳餘額
     double getBalance() const {
         return balance;
     }
 
     // 存款功能
     void deposit(double amount) {
-
-        // 金額必須大於0才允許存款
         if (amount > 0) {
             balance += amount;
         }
     }
 
-    // 純虛擬函式(Pure Virtual Function)
-    // 每種帳戶提款規則不同
-    // 強制子類別一定要實作 withdraw()
+    // 純虛擬函式（Pure Virtual Function）
+    // 強制子類別實作提款功能
     virtual void withdraw(double amount) = 0;
 
-    // 虛擬解構子(Virtual Destructor)
-    // 使用父類別指標刪除子類別物件時可正確釋放記憶體
+    // 虛擬解構子（Virtual Destructor）
+    // 確保刪除子類別物件時能正確釋放資源
     virtual ~Account() {}
 
     // 顯示帳戶資訊
