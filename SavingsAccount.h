@@ -1,45 +1,35 @@
-#ifndef SAVINGSACCOUNT_H      // 防止重複包含
+#ifndef SAVINGSACCOUNT_H
 #define SAVINGSACCOUNT_H
 
-#include "Account.h"         // 引入父類別
+#include "Account.h"
 
-// SavingsAccount 繼承 Account
+// SavingsAccount 類別
+// 繼承自 Account 類別（Inheritance）
 class SavingsAccount : public Account {
-
 private:
-    double interestRate;     // 利率
+    // 私有成員：利率
+    double interestRate;
 
 public:
-
     // 建構子
-    // accNo=帳號
-    // name=姓名
-    // bal=初始餘額
-    // rate=利率
-    SavingsAccount(string accNo,
-                   string name,
-                   double bal,
-                   double rate)
-        : Account(accNo, name, bal),   // 呼叫父類別建構子
-          interestRate(rate) {}        // 初始化利率
+    // 呼叫父類別 Account 的建構子初始化帳戶資料
+    SavingsAccount(string accNo, string name, double bal, double rate)
+        : Account(accNo, name, bal), interestRate(rate) {}
 
-    // 覆寫父類別 withdraw()
-    // 多型(Polymorphism)
+    // 覆寫（Override）父類別的 withdraw() 函式
+    // 展現多型（Polymorphism）
     void withdraw(double amount) override {
-
-        // 餘額足夠才能提款
+        // 若提款金額小於等於餘額，則允許提款
         if (amount <= balance) {
             balance -= amount;
-        }
-        else {
+        } else {
+            // 餘額不足
             cout << "Insufficient balance (Savings)" << endl;
         }
     }
 
-    // 計算利息
+    // 計算並加入利息
     void addInterest() {
-
-        // 新餘額 = 原餘額 + 利息
         balance += balance * interestRate;
     }
 };
